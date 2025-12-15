@@ -1,0 +1,40 @@
+{
+  "name": "sagacorp/yii2-queue-multi",
+  "description": "Yii2 Queue driver for multi queue",
+  "license": "MIT",
+  "keywords": ["yii2-queue", "yii2", "queue", "yii"],
+  "type": "yii2-extension",
+  "authors": [
+    {
+      "name": "Aurélien Chrétien"
+    }
+  ],
+  "require": {
+    "php": "^8.3",
+    "yiisoft/yii2-queue": "^2.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "rector/rector": "^2.1",
+    "laravel/pint": "^1.24"
+  },
+  "autoload": {
+    "psr-4": {
+      "yii\\queue\\multi\\": "src"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true
+    }
+  }
+}

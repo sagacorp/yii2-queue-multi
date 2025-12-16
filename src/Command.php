@@ -16,11 +16,13 @@ class Command extends CliCommand
         $queueInstance = $this->getQueue($queue);
 
         if (method_exists($queueInstance, 'listen')) {
-            return $queueInstance->listen();
+            $queueInstance->listen();
+
+            return ExitCode::OK;
         }
 
         if (method_exists($queueInstance, 'run')) {
-            return call_user_func_array([$queueInstance, 'run'], [true, $timeout]);
+            return call_user_func_array([$queueInstance, 'run'], [true, $timeout]) ?? ExitCode::OK;
         }
 
         return ExitCode::CONFIG;

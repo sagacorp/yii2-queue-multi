@@ -11,7 +11,33 @@ use yii\queue\cli\Queue as CliQueue;
  */
 class Command extends CliCommand
 {
-    public function actionListen(?string $queue = null): int
+    public function actionListen(string $queue = Queue::DEFAULT_QUEUE, int $timeout = 10): int
+    {
+        $queueInstance = $this->getQueue($queue);
+
+        if (method_exists($queueInstance, 'listen')) {
+            return $queueInstance->listen();
+        }
+
+        if (method_exists($queueInstance, 'run')) {
+            return call_user_func_array([$queueInstance, 'run'], [true, $timeout]);
+        }
+
+        return ExitCode::CONFIG;
+    }
+
+    public function actionRun(string $queue = Queue::DEFAULT_QUEUE): int
+    {
+        $queueInstance = $this->getQueue($queue);
+
+        if (method_exists($queueInstance, 'run')) {
+            return call_user_func_array([$queueInstance, 'run'], [false]);
+        }
+
+        return ExitCode::CONFIG;
+    }
+
+    protected function getQueue(string $queue): \yii\queue\Queue
     {
         $queueInstance = $this->queue->getQueue($queue);
 
@@ -19,19 +45,11 @@ class Command extends CliCommand
             $queueInstance->messageHandler = $this->queue->messageHandler;
         }
 
-        if (method_exists($queueInstance, 'run')) {
-            return call_user_func_array($queueInstance->run, [true]);
-        }
-
-        if (method_exists($queueInstance, 'listen')) {
-            return call_user_func($queueInstance->listen);
-        }
-
-        return ExitCode::CONFIG;
+        return $queueInstance;
     }
 
     protected function isWorkerAction($actionID): bool
     {
-        return 'listen' === $actionID;
+        return in_array($actionID, ['run', 'listen'], true);
     }
 }

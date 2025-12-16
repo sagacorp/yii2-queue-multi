@@ -20,7 +20,7 @@ class Queue extends CliQueue
 
     public function getQueue(string $queue): BaseQueue
     {
-        if (!isset($this->queues[$queue])) {
+        if (! isset($this->queues[$queue])) {
             $queue = self::DEFAULT_QUEUE;
         }
 
@@ -34,8 +34,8 @@ class Queue extends CliQueue
     {
         parent::init();
 
-        if (!isset($this->queues[self::DEFAULT_QUEUE])) {
-            throw new InvalidConfigException("'" . self::DEFAULT_QUEUE . "' queue must be set.");
+        if (! isset($this->queues[self::DEFAULT_QUEUE])) {
+            throw new InvalidConfigException("'".self::DEFAULT_QUEUE."' queue must be set.");
         }
 
         $this->currentQueue = self::DEFAULT_QUEUE;

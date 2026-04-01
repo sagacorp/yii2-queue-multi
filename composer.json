@@ -11,6 +11,7 @@
   ],
   "require": {
     "php": "^8.3",
+    "sagacorp/yii2-queue-contracts": "^1.0",
     "yiisoft/yii2-queue": "^2.0"
   },
   "require-dev": {
